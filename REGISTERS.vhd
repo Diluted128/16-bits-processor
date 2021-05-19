@@ -28,15 +28,14 @@ entity Rejestry is
       BB : out signed (15 downto 0);
       BC : out signed (15 downto 0);
 		-- ????????
-      ADR : out signed (31 downto 0);
-      IRout : out signed (15 downto 0)
+      ADR : out signed (31 downto 0)
    );
 end entity;
  
 architecture rtl of Rejestry is
 begin
 process (clk, Sbb, Sbc, Sba, Sid, Sa, DI)
-         variable ADH,ADL,IR, TMP, A, B, C, D, E, F: signed (15 downto 0);
+         variable ADH,ADL,TMP, A, B, C, D, E, F: signed (15 downto 0);
          variable PC, SP, ATMP : signed (31 downto 0);
        begin
        if (clk'event and clk='1') then
@@ -51,7 +50,6 @@ process (clk, Sbb, Sbc, Sba, Sid, Sa, DI)
                   when others => null;
          end case;
          case Sba is
-                  when "0000" => IR := BA;
                   when "0001" => TMP := BA;
                   when "0010" => A := BA;
                   when "0011" => B := BA;
@@ -111,6 +109,5 @@ process (clk, Sbb, Sbc, Sba, Sid, Sa, DI)
                   when "10" => ADR <= SP;
                   when "11" => ADR <= ATMP;
          end case;
-         IRout <= IR;
 end process;
 end rtl;
