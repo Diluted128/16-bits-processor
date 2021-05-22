@@ -141,19 +141,20 @@ process (clk, reset)
 				  if INT = '0' then state <= m0;
               else state <= m9;
               end if;
-				when m24 =>
-				when m25 =>
+				  -- start modyfikacji
+				when m24 => state <= m25;
+				when m25 => state <= m0;
 				when m26 =>
 				when m27 =>
 				when m28 =>
 				when m29 =>
-				when m30 =>                           --      <- dodac, co bedzie sie dzialo po wykonaniu obliczen na alu.
-				when m31 =>
-				when m32 =>
-				when m33 =>
-				when m34 =>
-				when m35 =>
-				when m36 =>
+				when m30 => state <= m31;                        --      <- dodac, co bedzie sie dzialo po wykonaniu obliczen na alu.
+				when m31 => state <= m32;
+				when m32 => state <= m33;
+				when m33 => state <= m34;
+				when m34 => state <= m35;
+				when m35 => state <= m36;
+				when m36 => state <= m0;
 				when m37 =>
 				when m38 =>
 				when m40 => 
@@ -173,7 +174,7 @@ process (clk, reset)
               else state <= m9;
 				  end if;
 				when m60 =>
-				when m80 =>                           --     <- dodać, co bedzie sie dzialo po wykonaniu rozkazu dwuargumentowego.
+				when m80 =>           --     <- dodać, co bedzie sie dzialo po wykonaniu rozkazu dwuargumentowego.
 				
         end case;
      end if;
@@ -264,9 +265,14 @@ begin
 		   --  Sbb <= "0" & IR(3 downto 0); Sba <= "0" & IR(3 downto 0); MIO <='0';
 			  Salu <="1001"; 
 			------------------------------------------------------------------------------------
+			-- 
+			--
+			--
+			
 			-- INC R
 			when m24 =>
-			------------------------------------------------------------------------------------
+				Sa <= "00"; Sbb <= "0001"; Sba <= IR(7 downto 4); Sid <="000"; MIO <= "";
+				Smar <= ""; Smbr <= ""; Salu <= ""; WR <= ""; RD <=""; Sbc <=""; 
 			-- DEC R
 			when m25 =>
 			------------------------------------------------------------------------------------
@@ -286,12 +292,14 @@ begin
 			when m30 =>
 			------------------------------------------------------------------------------------
 			-- ADD R,RM
+			-- znak IR(13) decyduje o tym czy dodawanie czy odejmowanie
 			when m31 =>
-			------------------------------------------------------------------------------------      <- dodac, opisac
-			-- SUB R,RM
+				Salu <= "01" & IR(13); Sba <= IR(8 downto 5);
+			--	SUB R,RM
 			when m32 =>
+				Salu <= "01" & IR(13); Sba <= IR(8 downto 5);
 			------------------------------------------------------------------------------------
-			--CMP R, RM
+			-- CMP R, RM
 			when m33 =>
 			------------------------------------------------------------------------------------
 			-- AND R,RM
