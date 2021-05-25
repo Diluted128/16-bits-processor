@@ -23,8 +23,7 @@ end entity;
  
 architecture rtl of control is
 type state_type is (m0, m1, m10, m11, m12, m13, m14, m15, m16, m17, m20, m21, m22, m23, m24, m25, m26, m27, m28,
-m29, m30, m31, m32, m33, m34, m35, m36, m37, m38, m40, m41, m50, m51, m52, m53, m60, m61, m62, m63, m64, m65, m66, m67, m68,
-m69, m70, m80, m81, m82, m83, m84, m9, m91, m92, m93, m94);
+m29, m30, m31, m32, m33, m34, m35, m36, m37, m38, m40, m41, m50, m51, m52, m53, m60, m80, m9);
 signal state : state_type;
 begin
 process (clk, reset)
@@ -45,9 +44,8 @@ process (clk, reset)
                      case IR(12 downto 11) is
 							   -- NOP
                         when "00" =>
-							 
                           if(INT='0') then state <= m0;
-                          else state <= m9;            -- ????
+                          else state <= m9;            
                           end if;
 								-- WAIT
                         when "01" => state <= m10;
@@ -141,22 +139,66 @@ process (clk, reset)
 				  if INT = '0' then state <= m0;
               else state <= m9;
               end if;
-				  -- start modyfikacji
-				when m24 => state <= m25;
-				when m25 => state <= m0;
+				when m24 => 
+				  if INT = '0' then state <= m0;
+              else state <= m9;
+              end if;
+				when m25 => 
+				  if INT = '0' then state <= m0;
+              else state <= m9;
+              end if;
 				when m26 =>
+				  if INT = '0' then state <= m0;
+              else state <= m9;
+              end if;
 				when m27 =>
+				  if INT = '0' then state <= m0;
+              else state <= m9;
+              end if;
 				when m28 =>
+				  if INT = '0' then state <= m0;
+              else state <= m9;
+              end if;
 				when m29 =>
-				when m30 => state <= m31;                        --      <- dodac, co bedzie sie dzialo po wykonaniu obliczen na alu.
-				when m31 => state <= m32;
-				when m32 => state <= m33;
-				when m33 => state <= m34;
-				when m34 => state <= m35;
-				when m35 => state <= m36;
-				when m36 => state <= m0;
+				  if INT = '0' then state <= m0;
+              else state <= m9;
+              end if;
+				when m30 =>    
+              if INT = '0' then state <= m0;
+              else state <= m9;
+              end if;				
+				when m31 => 
+				  if INT = '0' then state <= m0;
+              else state <= m9;
+              end if;
+				when m32 => 
+				  if INT = '0' then state <= m0;
+              else state <= m9;
+              end if;
+				when m33 => 
+				  if INT = '0' then state <= m0;
+              else state <= m9;
+              end if;
+				when m34 => 
+				  if INT = '0' then state <= m0;
+              else state <= m9;
+              end if;
+				when m35 => 
+				  if INT = '0' then state <= m0;
+              else state <= m9;
+              end if;
+				when m36 => 
+				  if INT = '0' then state <= m0;
+              else state <= m9;
+              end if;
 				when m37 =>
+				  if INT = '0' then state <= m0;
+              else state <= m9;
+              end if;
 				when m38 =>
+				  if INT = '0' then state <= m0;
+              else state <= m9;
+              end if;
 				when m40 => 
 				  if (IR(12 downto 11) = "00") then state <= m41;
 				  elsif ( IR(12 downto 11) = "01" and C = '1') then state <= m41;
@@ -174,8 +216,13 @@ process (clk, reset)
               else state <= m9;
 				  end if;
 				when m60 =>
-				when m80 =>           --     <- dodać, co bedzie sie dzialo po wykonaniu rozkazu dwuargumentowego.
-				
+				  if INT = '0' then state <= m0;
+              else state <= m9;
+              end if;
+				when m80 =>  
+              if INT = '0' then state <= m0;
+              else state <= m9;
+              end if;				
         end case;
      end if;
 end process;
@@ -247,7 +294,7 @@ begin
 			-- Wspomaganie pamięci: wysyłamy wartosc wskaznika stosu na AD
 			-- Zapis z D do DI a nastepnie do zapisujemy DI do rejestru określonego w IR
          when m20 =>
-		   --  Sa <= "10"; Sbb <= "0000"; Sba <= "0" & IR(3 downto 0); Sid<="010"; MIO <='1';                      <- problem bo wektor bedzie mial 5 bitow a Sba jest 4 bitowy
+		     Sa <= "10"; Sbb <= "0000"; Sba <= "0" & IR(3 downto 0); Sid<="010"; MIO <='1';                      <- problem bo wektor bedzie mial 5 bitow a Sba jest 4 bitowy
 			  Smar <='1'; Smbr <='0'; WR <='0'; RD <='1'; Salu <="0000";  
 			------------------------------------------------------------------------------------
 			-- Rozkaz POP R
@@ -255,35 +302,47 @@ begin
 			-- Wspomaganie pamięci: przesylamy wartosc SP na AD
 			-- Wspomaganie pamięci: IR(3 downto 0) <- decyzja ktora wartosc z rejestru zwolnic (wyslac na zatrzask MBR(MBR(out))
 			when m21 =>
-		   --  Sa <= "10"; Sbb := "0" & IR(3 downto 0); Sid<="011"; MIO <='1';                
+		     Sa <= "10"; Sbb := "0" & IR(3 downto 0); Sid<="011"; MIO <='1';                
 			  Smar <='1'; Smbr <= '1'; WR <='0'; RD <='0'; Salu <="0000"; 
 			------------------------------------------------------------------------------------
 			-- Rozkaz NEG R
 			-- Wybieramy ktora wartosc rejestru chcemy poddać negacji poprzez Sbb
 			-- Zapisujemy otrzymana wartosc do tego samego rejestru z ktorego wczesniej pobralismy wartosc.
 			when m23 =>
-		   --  Sbb <= "0" & IR(3 downto 0); Sba <= "0" & IR(3 downto 0); MIO <='0';
+		     Sbb <= IR(3 downto 0); Sba <= IR(3 downto 0); MIO <='0';
 			  Salu <="1001"; 
 			------------------------------------------------------------------------------------
-			-- 
-			--
-			--
-			
 			-- INC R
 			when m24 =>
-				Sa <= "00"; Sbb <= "0001"; Sba <= IR(7 downto 4); Sid <="000"; MIO <= "";
-				Smar <= ""; Smbr <= ""; Salu <= ""; WR <= ""; RD <=""; Sbc <=""; 
+				Sbb <= IR(3 downto 0); Sba <= IR(3 downto 0); MIO <= "0";
+			   Salu <= "1101"; 
+			------------------------------------------------------------------------------------
 			-- DEC R
 			when m25 =>
+			   -- negujemy liczbe
+			   Sbb <= IR(3 downto 0); Sba <= IR(3 downto 0); MIO <= "0";
+				Salu <= "1001";
+				--dodajemy jeden do liczby.
+				Sbb <= IR(3 downto 0); Sba <= IR(3 downto 0);
+				Salu <= "1101";
+				-- negujemy liczbe
+				Sbb <= IR(3 downto 0); Sba <= IR(3 downto 0);
+				Salu <= "1001";
 			------------------------------------------------------------------------------------
 			-- NOT R
 			when m26 =>
+			  Sbb <= IR(3 downto 0); Sba <= IR(3 downto 0); MIO <='0';
+			  Salu <="1000"; 
 			------------------------------------------------------------------------------------
 			-- SHR R
 			when m27 =>
+			  Sbb <= IR(3 downto 0); Sba <= IR(3 downto 0); MIO <='0';
+			  Salu <="1111"; 
 			------------------------------------------------------------------------------------
 			-- SHL R
 			when m28 =>
+			  Sbb <= IR(3 downto 0); Sba <= IR(3 downto 0); MIO <='0';
+			  Salu <="1110"; 
 			------------------------------------------------------------------------------------
 			-- MOV R,RM
 			when m29 =>
@@ -294,25 +353,34 @@ begin
 			-- ADD R,RM
 			-- znak IR(13) decyduje o tym czy dodawanie czy odejmowanie
 			when m31 =>
-				Salu <= "01" & IR(13); Sba <= IR(8 downto 5);
+				Salu <= "0010"; Sba <= IR(3 downto 0); Sbb <= IR(3 downto 0); MIO <= "0"; 
+				Sbc <= IR(7 downto 4);
 			--	SUB R,RM
 			when m32 =>
-				Salu <= "01" & IR(13); Sba <= IR(8 downto 5);
+				Salu <= "0011"; Sba <= IR(3 downto 0); Sbb <= IR(3 downto 0); MIO <= "0";
+				Sbc <= IR(7 downto 4);
 			------------------------------------------------------------------------------------
 			-- CMP R, RM
 			when m33 =>
 			------------------------------------------------------------------------------------
 			-- AND R,RM
 			when m34 =>
+			   Sba <= IR(3 downto 0); Sbb <= IR(3 downto 0); Sbc <= IR(7 downto 4); MIO <= "0";
+				Salu <= "0101";
 			------------------------------------------------------------------------------------
 			-- OR R, RM
 			when m35 =>
+			   Sba <= IR(3 downto 0); Sbb <= IR(3 downto 0); Sbc <= IR(7 downto 4); MIO <= "0";
+				Salu <= "0100";
 			------------------------------------------------------------------------------------
 			-- XOR R,RM
 			when m36 =>
+			   Sba <= IR(3 downto 0); Sbb <= IR(3 downto 0); Sbc <= IR(7 downto 4); MIO <= "0";
+				Salu <= "0110";
 			------------------------------------------------------------------------------------
 			-- IN R.IO(AD)
 			when m37 =>
+			    
 			------------------------------------------------------------------------------------
 			-- OUT IO(AD),R
 			when m38 =>
@@ -321,7 +389,7 @@ begin
 			when m40 =>
 		     Sa <= "01"; Sbb <= "0000"; Sba <= "0001"; Sid<="001"; MIO <='1';
 			  Smar <='1'; Smbr <= '0'; WR <='0'; RD <='1'; Salu <="0000"; 
-			------------------------------------------------------------------------------------     <- opisac
+			------------------------------------------------------------------------------------    
 			-- Rozkazy skoków cz2
 			when m41 =>
 			  Sbb <= "1010"; Sba <= "0001"; Sbc<="0001"; MIO <='0';
@@ -329,15 +397,25 @@ begin
 			------------------------------------------------------------------------------------
 			-- Rozkaz skoku długiego
 			when m50 =>
-			when m51 =>                                                                     
+			  Sa <= "01"; Rdin <= '1'; Sba <= "1110"; Sbb <="0000"; Salu <= "0000"; 
+			  Mio <="1"; Smar <= '1'; Sid <= "001";
+			when m51 =>   
+           Sa <= "01"; Rdin <= '1'; Sba <= "1111"; Sbb <="0000"; Salu <= "0000"; 
+			  Mio <="1"; Smar <= '1'; 			
 	      when m52 =>
-	      when m53 =>		
-			------------------------------------------------------------------------------------     <- dodac, opisac 
+			   Sba <= "1010"; Sbb <="1110"; Salu <= "0000"; 
+			   Mio <="0";  	
+	      when m53 =>	
+		      Sba <= "1011"; Sbb <="1111"; Salu <= "0000"; 
+			   Mio <="0";	
+			------------------------------------------------------------------------------------    
 			-- Rozkazy dwuargumentowe
 			when m60 =>
+			-- co to st16 
 			------------------------------------------------------------------------------------
 			-- Rozkazy dwuargumentowe
 			when m80 =>
+			-- co to adr32
 			------------------------------------------------------------------------------------
          when others =>
            Sa <= "00"; Sbb <= "0000"; Sba <= "0000"; Sid <="000"; Sbc <="0000"; MIO <='1';
