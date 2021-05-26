@@ -302,7 +302,7 @@ begin
 			-- Wspomaganie pamięci: wysyłamy wartosc wskaznika stosu na AD
 			-- Zapis z D do DI a nastepnie do zapisujemy DI do rejestru określonego w IR
          when m20 =>
-		     Sa <= "10"; Sbb <= "0000"; Sba <= "0" & IR(3 downto 0); Sid<="010"; MIO <='1';                      <- problem bo wektor bedzie mial 5 bitow a Sba jest 4 bitowy
+		     Sa <= "10"; Sbb <= "0000"; Sba <= IR(3 downto 0); Sid<="010"; MIO <='1';                    
 			  Smar <='1'; Smbr <='0'; WR <='0'; RD <='1'; Salu <="0000";  
 			------------------------------------------------------------------------------------
 			-- Rozkaz POP R
@@ -352,17 +352,15 @@ begin
 			  Sbb <= IR(3 downto 0); Sba <= IR(3 downto 0); MIO <='0';
 			  Salu <="1110"; 
 			------------------------------------------------------------------------------------
-			---------------------TUTAJ SPRAWDZ
 			-- MOV R,RM
 			when m29 =>
-				Sbb <= IR(3 downto 0); Sbc <= IR(7 downto 4); Sba <= IR(3 downto 0); MIO <='0';
+				Sbc <= IR(7 downto 4); Sba <= IR(3 downto 0); MIO <='0';
 				Salu <="0001"; -- z B -> A ?
 			------------------------------------------------------------------------------------
 			-- MOV RM,R
 			when m30 =>
-				Sbb <= IR(3 downto 0); Sbc <= IR(7 downto 4); Sba <= IR(7 downto 4); MIO <='0';
-				Salu <="0000"; -- z A -> B?
-			--------------------- DO TEGO MIEJSCA
+				Sbb <= IR(3 downto 0); Sba <= IR(7 downto 4); MIO <='0';
+				Salu <="0000"; 
 			------------------------------------------------------------------------------------
 			-- ADD R,RM
 			when m31 =>
@@ -374,20 +372,17 @@ begin
 				Sbc <= IR(7 downto 4);
 			------------------------------------------------------------------------------------
 			-- CMP R, RM
-			---------------------TUTAJ SPRAWDZ
 			-- Flagi : 
-			-- A == B -> Z = 1, C = 0
-			-- A < B -> Z = 0, C = 1
-			-- A > B -> Z = 0, C = 0
+			-- A == B -> Z = 1, S = 0
+			-- A < B -> Z = 0, S = 1
+			-- A > B -> Z = 0, S = 0
 			when m33 =>
 				Sbb <= IR(3 downto 0); Sbc <= IR(7 downto 4); MIO <= '0';
 				LDF <= '1'; 
-				if(Sbb = Sbc) then Salu <= "0110"; -- Z = 1
-				-- else if(Sbb < Sbc) then -- JAK USTAWIC FLAGE C ?
-				else
-					null;
+				
+				if(S = '0') then Salu <= "1011";
+		      else Salu <= "1100";
 				end if;
-			--------------------- DO TEGO MIEJSCA
 			------------------------------------------------------------------------------------
 			-- AND R,RM
 			when m34 =>
@@ -405,7 +400,7 @@ begin
 				Salu <= "0110";
 			------------------------------------------------------------------------------------
 			-- IN R.IO(AD)
-			--	when m37 =>
+			--	   when m37 =>
 			    
 			------------------------------------------------------------------------------------
 			-- OUT IO(AD),R

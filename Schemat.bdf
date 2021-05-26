@@ -136,6 +136,22 @@ https://fpgasoftware.intel.com/eula.
 	)
 )
 (pin
+	(output)
+	(rect 856 744 1032 760)
+	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
+	(text "res" (rect 90 0 105 12)(font "Arial" ))
+	(pt 0 8)
+	(drawing
+		(line (pt 0 8)(pt 52 8))
+		(line (pt 52 4)(pt 78 4))
+		(line (pt 52 12)(pt 78 12))
+		(line (pt 52 12)(pt 52 4))
+		(line (pt 78 4)(pt 82 8))
+		(line (pt 82 8)(pt 78 12))
+		(line (pt 78 12)(pt 82 8))
+	)
+)
+(pin
 	(bidir)
 	(rect 1072 248 1248 264)
 	(text "BIDIR" (rect 1 0 25 10)(font "Arial" (font_size 6)))
@@ -1076,5 +1092,13 @@ https://fpgasoftware.intel.com/eula.
 	(pt 1008 -32)
 	(pt 1008 224)
 	(bus)
+)
+(connector
+	(pt 752 680)
+	(pt 752 752)
+)
+(connector
+	(pt 752 752)
+	(pt 856 752)
 )
 (junction (pt 536 712))
