@@ -22,8 +22,16 @@ port(
 end entity;
  
 architecture rtl of control is
-type state_type is (m0, m1, m10, m11, m12, m13, m14, m15, m16, m17, m20, m21, m22, m23, m24, m25, m26, m27, m28,
-m29, m30, m31, m32, m33, m34, m35, m36, m37, m38, m40, m41, m50, m51, m52, m53, m60, m80, m9);
+type state_type is (
+	m0, m1,
+	m10, m11, m12, m13, m14, m15, m16, m17,
+	m20, m21, m22, m23, m24, m25, m26, m27, m28, m29,
+	m30, m31, m32, m33, m34, m35, m36, m37, m38,
+	m40, m41,
+	m50, m51, m52, m53,
+	m60,
+	m80,
+	m9);
 signal state : state_type;
 begin
 process (clk, reset)
@@ -344,14 +352,19 @@ begin
 			  Sbb <= IR(3 downto 0); Sba <= IR(3 downto 0); MIO <='0';
 			  Salu <="1110"; 
 			------------------------------------------------------------------------------------
+			---------------------TUTAJ SPRAWDZ
 			-- MOV R,RM
 			when m29 =>
+				Sbb <= IR(3 downto 0); Sbc <= IR(7 downto 4); Sba <= IR(3 downto 0); MIO <='0';
+				Salu <="0001"; -- z B -> A ?
 			------------------------------------------------------------------------------------
 			-- MOV RM,R
 			when m30 =>
+				Sbb <= IR(3 downto 0); Sbc <= IR(7 downto 4); Sba <= IR(7 downto 4); MIO <='0';
+				Salu <="0000"; -- z A -> B?
+			--------------------- DO TEGO MIEJSCA
 			------------------------------------------------------------------------------------
 			-- ADD R,RM
-			-- znak IR(13) decyduje o tym czy dodawanie czy odejmowanie
 			when m31 =>
 				Salu <= "0010"; Sba <= IR(3 downto 0); Sbb <= IR(3 downto 0); MIO <= "0"; 
 				Sbc <= IR(7 downto 4);
@@ -361,7 +374,20 @@ begin
 				Sbc <= IR(7 downto 4);
 			------------------------------------------------------------------------------------
 			-- CMP R, RM
+			---------------------TUTAJ SPRAWDZ
+			-- Flagi : 
+			-- A == B -> Z = 1, C = 0
+			-- A < B -> Z = 0, C = 1
+			-- A > B -> Z = 0, C = 0
 			when m33 =>
+				Sbb <= IR(3 downto 0); Sbc <= IR(7 downto 4); MIO <= '0';
+				LDF <= '1'; 
+				if(Sbb = Sbc) then Salu <= "0110"; -- Z = 1
+				-- else if(Sbb < Sbc) then -- JAK USTAWIC FLAGE C ?
+				else
+					null;
+				end if;
+			--------------------- DO TEGO MIEJSCA
 			------------------------------------------------------------------------------------
 			-- AND R,RM
 			when m34 =>
@@ -379,11 +405,11 @@ begin
 				Salu <= "0110";
 			------------------------------------------------------------------------------------
 			-- IN R.IO(AD)
-			when m37 =>
+			--	when m37 =>
 			    
 			------------------------------------------------------------------------------------
 			-- OUT IO(AD),R
-			when m38 =>
+			--		when m38 =>
 			------------------------------------------------------------------------------------
 			-- Rozkazy skoków cz1
 			when m40 =>
