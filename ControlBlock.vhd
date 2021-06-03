@@ -7,7 +7,7 @@ port(
      clk : in std_logic;
 	  
 	  -- 16 bit control vector
-     IR : in signed(15 downto 0);
+     IR : in bit_vector(15 downto 0);
 	  
      reset, C, Z, S, INT : in std_logic;
      Salu : out bit_vector(3 downto 0);
@@ -310,7 +310,7 @@ begin
 			-- Wspomaganie pamięci: przesylamy wartosc SP na AD
 			-- Wspomaganie pamięci: IR(3 downto 0) <- decyzja ktora wartosc z rejestru zwolnic (wyslac na zatrzask MBR(MBR(out))
 			when m21 =>
-		     Sa <= "10"; Sbb := "0" & IR(3 downto 0); Sid<="011"; MIO <='1';                
+		     Sa <= "10"; Sbb <= IR(3 downto 0); Sid<="011"; MIO <='1';                
 			  Smar <='1'; Smbr <= '1'; WR <='0'; RD <='0'; Salu <="0000"; 
 			------------------------------------------------------------------------------------
 			-- Rozkaz NEG R
@@ -322,13 +322,13 @@ begin
 			------------------------------------------------------------------------------------
 			-- INC R
 			when m24 =>
-				Sbb <= IR(3 downto 0); Sba <= IR(3 downto 0); MIO <= "0";
+				Sbb <= IR(3 downto 0); Sba <= IR(3 downto 0); MIO <= '0';
 			   Salu <= "1101"; 
 			------------------------------------------------------------------------------------
 			-- DEC R
 			when m25 =>
 			   -- negujemy liczbe
-			   Sbb <= IR(3 downto 0); Sba <= IR(3 downto 0); MIO <= "0";
+			   Sbb <= IR(3 downto 0); Sba <= IR(3 downto 0); MIO <= '0';
 				Salu <= "1001";
 				--dodajemy jeden do liczby.
 				Sbb <= IR(3 downto 0); Sba <= IR(3 downto 0);
@@ -364,11 +364,11 @@ begin
 			------------------------------------------------------------------------------------
 			-- ADD R,RM
 			when m31 =>
-				Salu <= "0010"; Sba <= IR(3 downto 0); Sbb <= IR(3 downto 0); MIO <= "0"; 
+				Salu <= "0010"; Sba <= IR(3 downto 0); Sbb <= IR(3 downto 0); MIO <= '0'; 
 				Sbc <= IR(7 downto 4);
 			--	SUB R,RM
 			when m32 =>
-				Salu <= "0011"; Sba <= IR(3 downto 0); Sbb <= IR(3 downto 0); MIO <= "0";
+				Salu <= "0011"; Sba <= IR(3 downto 0); Sbb <= IR(3 downto 0); MIO <= '0';
 				Sbc <= IR(7 downto 4);
 			------------------------------------------------------------------------------------
 			-- CMP R, RM
@@ -386,17 +386,17 @@ begin
 			------------------------------------------------------------------------------------
 			-- AND R,RM
 			when m34 =>
-			   Sba <= IR(3 downto 0); Sbb <= IR(3 downto 0); Sbc <= IR(7 downto 4); MIO <= "0";
+			   Sba <= IR(3 downto 0); Sbb <= IR(3 downto 0); Sbc <= IR(7 downto 4); MIO <= '0';
 				Salu <= "0101";
 			------------------------------------------------------------------------------------
 			-- OR R, RM
 			when m35 =>
-			   Sba <= IR(3 downto 0); Sbb <= IR(3 downto 0); Sbc <= IR(7 downto 4); MIO <= "0";
+			   Sba <= IR(3 downto 0); Sbb <= IR(3 downto 0); Sbc <= IR(7 downto 4); MIO <= '0';
 				Salu <= "0100";
 			------------------------------------------------------------------------------------
 			-- XOR R,RM
 			when m36 =>
-			   Sba <= IR(3 downto 0); Sbb <= IR(3 downto 0); Sbc <= IR(7 downto 4); MIO <= "0";
+			   Sba <= IR(3 downto 0); Sbb <= IR(3 downto 0); Sbc <= IR(7 downto 4); MIO <= '0';
 				Salu <= "0110";
 			------------------------------------------------------------------------------------
 			-- IN R.IO(AD)
@@ -418,17 +418,17 @@ begin
 			------------------------------------------------------------------------------------
 			-- Rozkaz skoku długiego
 			when m50 =>
-			  Sa <= "01"; Rdin <= '1'; Sba <= "1110"; Sbb <="0000"; Salu <= "0000"; 
-			  Mio <="1"; Smar <= '1'; Sid <= "001";
+			  Sa <= "01"; RD <= '1'; Sba <= "1110"; Sbb <="0000"; Salu <= "0000"; 
+			  Mio <='1'; Smar <= '1'; Sid <= "001";
 			when m51 =>   
-           Sa <= "01"; Rdin <= '1'; Sba <= "1111"; Sbb <="0000"; Salu <= "0000"; 
-			  Mio <="1"; Smar <= '1'; 			
+           Sa <= "01"; RD <= '1'; Sba <= "1111"; Sbb <="0000"; Salu <= "0000"; 
+			  Mio <='1'; Smar <= '1'; 			
 	      when m52 =>
 			   Sba <= "1010"; Sbb <="1110"; Salu <= "0000"; 
-			   Mio <="0";  	
+			   Mio <='0';  	
 	      when m53 =>	
 		      Sba <= "1011"; Sbb <="1111"; Salu <= "0000"; 
-			   Mio <="0";	
+			   Mio <='0';	
 			------------------------------------------------------------------------------------    
 			-- Rozkazy dwuargumentowe
 			when m60 =>

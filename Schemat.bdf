@@ -4,7 +4,7 @@ editor if you plan to continue editing the block that represents it in
 the Block Editor! File corruption is VERY likely to occur.
 */
 /*
-Copyright (C) 2019  Intel Corporation. All rights reserved.
+Copyright (C) 2020  Intel Corporation. All rights reserved.
 Your use of Intel Corporation's design tools, logic functions 
 and other software and tools, and any partner logic 
 functions, and any output files from any of the foregoing 
@@ -432,6 +432,155 @@ https://fpgasoftware.intel.com/eula.
 		(rectangle (rect 16 16 168 160))
 	)
 	(flipx)
+)
+(symbol
+	(rect 688 504 960 680)
+	(text "control" (rect 0 138 12 171)(font "Arial" )(vertical))
+	(text "inst4" (rect 256 146 273 168)(font "Intel Clear" )(vertical))
+	(port
+		(pt 32 176)
+		(input)
+		(text "clk" (rect 0 0 14 12)(font "Arial" ))
+		(text "clk" (rect 27 141 39 155)(font "Arial" )(vertical))
+		(line (pt 32 176)(pt 32 160))
+	)
+	(port
+		(pt 48 176)
+		(input)
+		(text "IR[15..0]" (rect 0 0 43 12)(font "Arial" ))
+		(text "IR[15..0]" (rect 43 112 55 155)(font "Arial" )(vertical))
+		(line (pt 48 176)(pt 48 160)(line_width 3))
+	)
+	(port
+		(pt 64 176)
+		(input)
+		(text "reset" (rect 0 0 24 12)(font "Arial" ))
+		(text "reset" (rect 59 131 71 155)(font "Arial" )(vertical))
+		(line (pt 64 176)(pt 64 160))
+	)
+	(port
+		(pt 80 176)
+		(input)
+		(text "C" (rect 0 0 8 12)(font "Arial" ))
+		(text "C" (rect 75 147 87 155)(font "Arial" )(vertical))
+		(line (pt 80 176)(pt 80 160))
+	)
+	(port
+		(pt 96 176)
+		(input)
+		(text "Z" (rect 0 0 7 12)(font "Arial" ))
+		(text "Z" (rect 91 148 103 155)(font "Arial" )(vertical))
+		(line (pt 96 176)(pt 96 160))
+	)
+	(port
+		(pt 112 176)
+		(input)
+		(text "S" (rect 0 0 7 12)(font "Arial" ))
+		(text "S" (rect 107 148 119 155)(font "Arial" )(vertical))
+		(line (pt 112 176)(pt 112 160))
+	)
+	(port
+		(pt 128 176)
+		(input)
+		(text "INT" (rect 0 0 17 12)(font "Arial" ))
+		(text "INT" (rect 123 138 135 155)(font "Arial" )(vertical))
+		(line (pt 128 176)(pt 128 160))
+	)
+	(port
+		(pt 32 0)
+		(output)
+		(text "Salu[3..0]" (rect 0 0 47 12)(font "Arial" ))
+		(text "Salu[3..0]" (rect 27 13 39 60)(font "Arial" )(vertical))
+		(line (pt 32 0)(pt 32 16)(line_width 3))
+	)
+	(port
+		(pt 48 0)
+		(output)
+		(text "Sbb[3..0]" (rect 0 0 44 12)(font "Arial" ))
+		(text "Sbb[3..0]" (rect 43 14 55 58)(font "Arial" )(vertical))
+		(line (pt 48 0)(pt 48 16)(line_width 3))
+	)
+	(port
+		(pt 64 0)
+		(output)
+		(text "Sbc[3..0]" (rect 0 0 44 12)(font "Arial" ))
+		(text "Sbc[3..0]" (rect 59 14 71 58)(font "Arial" )(vertical))
+		(line (pt 64 0)(pt 64 16)(line_width 3))
+	)
+	(port
+		(pt 80 0)
+		(output)
+		(text "Sba[3..0]" (rect 0 0 44 12)(font "Arial" ))
+		(text "Sba[3..0]" (rect 75 14 87 58)(font "Arial" )(vertical))
+		(line (pt 80 0)(pt 80 16)(line_width 3))
+	)
+	(port
+		(pt 96 0)
+		(output)
+		(text "Sid[2..0]" (rect 0 0 41 12)(font "Arial" ))
+		(text "Sid[2..0]" (rect 91 14 103 55)(font "Arial" )(vertical))
+		(line (pt 96 0)(pt 96 16)(line_width 3))
+	)
+	(port
+		(pt 112 0)
+		(output)
+		(text "Sa[1..0]" (rect 0 0 38 12)(font "Arial" ))
+		(text "Sa[1..0]" (rect 107 15 119 53)(font "Arial" )(vertical))
+		(line (pt 112 0)(pt 112 16)(line_width 3))
+	)
+	(port
+		(pt 128 0)
+		(output)
+		(text "LDF" (rect 0 0 21 12)(font "Arial" ))
+		(text "LDF" (rect 123 17 135 38)(font "Arial" )(vertical))
+		(line (pt 128 0)(pt 128 16))
+	)
+	(port
+		(pt 144 0)
+		(output)
+		(text "Smar" (rect 0 0 25 12)(font "Arial" ))
+		(text "Smar" (rect 139 17 151 42)(font "Arial" )(vertical))
+		(line (pt 144 0)(pt 144 16))
+	)
+	(port
+		(pt 160 0)
+		(output)
+		(text "Smbr" (rect 0 0 25 12)(font "Arial" ))
+		(text "Smbr" (rect 155 17 167 42)(font "Arial" )(vertical))
+		(line (pt 160 0)(pt 160 16))
+	)
+	(port
+		(pt 176 0)
+		(output)
+		(text "WR" (rect 0 0 18 12)(font "Arial" ))
+		(text "WR" (rect 171 18 183 36)(font "Arial" )(vertical))
+		(line (pt 176 0)(pt 176 16))
+	)
+	(port
+		(pt 192 0)
+		(output)
+		(text "RD" (rect 0 0 16 12)(font "Arial" ))
+		(text "RD" (rect 187 18 199 34)(font "Arial" )(vertical))
+		(line (pt 192 0)(pt 192 16))
+	)
+	(port
+		(pt 208 0)
+		(output)
+		(text "INTA" (rect 0 0 25 12)(font "Arial" ))
+		(text "INTA" (rect 203 17 215 42)(font "Arial" )(vertical))
+		(line (pt 208 0)(pt 208 16))
+	)
+	(port
+		(pt 224 0)
+		(output)
+		(text "MIO" (rect 0 0 20 12)(font "Arial" ))
+		(text "MIO" (rect 219 17 231 37)(font "Arial" )(vertical))
+		(line (pt 224 0)(pt 224 16))
+	)
+	(drawing
+		(rectangle (rect 16 16 256 160))
+	)
+	(rotate90)
 )
 (connector
 	(pt 448 176)
