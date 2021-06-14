@@ -280,7 +280,7 @@ begin
             Smar <='0'; Smbr <= '0'; WR <='0'; RD <='0'; Salu <="0000";
 			------------------------------------------------------------------------------------
 		   -- Rozkaz RET
-			-- REJESTRY:             Zmniejszenie PC o dwa.
+			-- REJESTRY:             Zmniejszenie PC o jeden.
          when m15 =>
             Sid <="011";  MIO <='0';
             Smar <='0'; Smbr <= '0'; WR <='0'; RD <='0'; 
@@ -407,25 +407,42 @@ begin
 			--		when m38 =>
 			------------------------------------------------------------------------------------
 			-- Rozkazy skoków cz1
+			-- PC -> AD
+			-- DI -> BB, BB->Y, Y-> TMP
 			when m40 =>
 		     Sa <= "01"; Sbb <= "0000"; Sba <= "0001"; Sid<="001"; MIO <='1';
 			  Smar <='1'; Smbr <= '0'; WR <='0'; RD <='1'; Salu <="0000"; 
 			------------------------------------------------------------------------------------    
 			-- Rozkazy skoków cz2
+			-- BB <= PC(15 downto 0), BC <= TMP
+			-- TMP <= BB + BC
 			when m41 =>
 			  Sbb <= "1010"; Sba <= "0001"; Sbc<="0001"; MIO <='0';
 			  Smar <='0'; Smbr <= '0'; WR <='0'; RD <='0'; Salu <="0010";
 			------------------------------------------------------------------------------------
 			-- Rozkaz skoku długiego
+			-- Support Memory
+			-- ADR <= PC, AD <= ADR
+			-- Registers
+			-- PC = PC + 1, 
+			-- BB <- DI, ATMPL <- Y
 			when m50 =>
 			  Sa <= "01"; RD <= '1'; Sba <= "1110"; Sbb <="0000"; Salu <= "0000"; 
 			  Mio <='1'; Smar <= '1'; Sid <= "001";
+			-- Support Memory
+			-- ADR <= PC, AD <= ADR
+			-- Registers
+		   -- BB <- DI, ATMPR <- Y
 			when m51 =>   
            Sa <= "01"; RD <= '1'; Sba <= "1111"; Sbb <="0000"; Salu <= "0000"; 
-			  Mio <='1'; Smar <= '1'; 			
+			  Mio <='1'; Smar <= '1'; 		
+			-- Registers
+			-- BB <- ATMPL, PCL <- Y
 	      when m52 =>
 			   Sba <= "1010"; Sbb <="1110"; Salu <= "0000"; 
-			   Mio <='0';  	
+			   Mio <='0';  
+			-- Registers	
+			-- BB <- ATMPR, PCR <- Y
 	      when m53 =>	
 		      Sba <= "1011"; Sbb <="1111"; Salu <= "0000"; 
 			   Mio <='0';	

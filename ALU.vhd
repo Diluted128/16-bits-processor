@@ -43,8 +43,8 @@ begin
 				when "1000" => res := not AA; -- jest
 				when "1001" => res := -AA; -- jest
 				when "1010" => res := "00000000000000000";
-				when "1011" => res := AA + BB + CF;
-				when "1100" => res := AA - BB - CF;
+				when "1011" => res := AA + BB + CC;
+				when "1100" => res := AA - BB - CC;
 				when "1101" => res := AA + "0000000000000001"; -- jest
 				when "1110" => res := shift_left(AA,1);   -- jest
 				when "1111" => res := shift_right(AA,1); -- jest
